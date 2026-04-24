@@ -6,6 +6,7 @@ const API_BASE_URL = 'https://bajaj-backend-rvzd.onrender.com/bfhl';
 
 // Recursive component for rendering the tree
 const TreeNode = {
+    name: 'tree-node', // Name is required for recursive resolution
     props: {
         tree: {
             type: Object,
@@ -16,9 +17,6 @@ const TreeNode = {
 };
 
 const app = createApp({
-    components: {
-        TreeNode
-    },
     setup() {
         const inputText = ref('A->B\nA->C\nB->D');
         const loading = ref(false);
@@ -78,4 +76,5 @@ const app = createApp({
     }
 });
 
+app.component('tree-node', TreeNode);
 app.mount('#app');
