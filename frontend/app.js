@@ -1,7 +1,7 @@
 const { createApp, ref } = Vue;
 
 // Configuration: Update this URL to your production/hosted endpoint before submission
-const API_BASE_URL = 'https://YOUR_HOSTED_URL/bfhl'; 
+const API_BASE_URL = 'https://bajaj-backend-rvzd.onrender.com/bfhl'; 
 // const API_BASE_URL = 'http://localhost:3000/bfhl';
 
 // Recursive component for rendering the tree
