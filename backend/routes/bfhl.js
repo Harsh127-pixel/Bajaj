@@ -22,9 +22,9 @@ router.post('/', (req, res) => {
 
         // Return the response with required placeholders and processed results
         return res.status(200).json({
-            user_id: "yourname_ddmmyyyy",       // Placeholder: Replace with actual value
-            email_id: "your@email.com",          // Placeholder: Replace with actual value
-            college_roll_number: "ROLLNUMBER",    // Placeholder: Replace with actual value
+            user_id: "harshbhojwani_12072003",
+            email_id: "hb8171@srmist.edu.in",
+            college_roll_number: "RA2311026030104",
             hierarchies: result.hierarchies,
             invalid_entries: result.invalid_entries,
             duplicate_edges: result.duplicate_edges,

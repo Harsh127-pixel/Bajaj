@@ -120,19 +120,45 @@ function processData(dataArray) {
     components.forEach(compNodes => {
         // A root is a node in this component that has no parent in the accepted edges
         const rootsInComp = compNodes.filter(node => childToParent[node] === undefined).sort();
-        
-        if (rootsInComp.length === 0) {
-            // No natural root => Pure Cycle
+
+        // DFS Cycle Detection Helper
+        const hasCycle = (nodes) => {
+            const visited = new Set();
+            const recStack = new Set();
+            const check = (u) => {
+                visited.add(u);
+                recStack.add(u);
+                const children = adj[u] || [];
+                for (const v of children) {
+                    if (!visited.has(v)) {
+                        if (check(v)) return true;
+                    } else if (recStack.has(v)) {
+                        return true;
+                    }
+                }
+                recStack.delete(u);
+                return false;
+            };
+            for (const node of nodes) {
+                if (!visited.has(node)) {
+                    if (check(node)) return true;
+                }
+            }
+            return false;
+        };
+
+        const isCyclic = hasCycle(compNodes);
+
+        if (rootsInComp.length === 0 || isCyclic) {
+            // No natural root OR cycle detected
             // Use lexicographically smallest node as root for the cycle entry
             const root = compNodes.sort()[0];
             hierarchies.push({ root, tree: {}, has_cycle: true });
             total_cycles++;
         } else {
-            // One or more roots (In this model, each component has exactly one root 
-            // because every other node has exactly one parent)
+            // Tree building logic
             const root = rootsInComp[0];
 
-            // Recursive function to build nested object
             const buildNested = (u) => {
                 const result = {};
                 const children = (adj[u] || []).sort();
@@ -142,7 +168,6 @@ function processData(dataArray) {
                 return result;
             };
 
-            // Recursive function to calculate depth (longest path node count)
             const getDepth = (u) => {
                 const children = adj[u] || [];
                 if (children.length === 0) return 1;
@@ -160,12 +185,10 @@ function processData(dataArray) {
             hierarchies.push({ root, tree: treeStructure, depth });
             total_trees++;
 
-            // Summary logic
             if (depth > maxDepth) {
                 maxDepth = depth;
                 largest_tree_root = root;
             } else if (depth === maxDepth) {
-                // tiebreak = lexicographically smaller root
                 if (largest_tree_root === null || root < largest_tree_root) {
                     largest_tree_root = root;
                 }

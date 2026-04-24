@@ -82,9 +82,9 @@ Processes an array of edges and returns hierarchical structures.
 **Example Success Response:**
 ```json
 {
-  "user_id": "yourname_ddmmyyyy",
-  "email_id": "your@email.com",
-  "college_roll_number": "ROLLNUMBER",
+  "user_id": "harshbhojwani_12072003",
+  "email_id": "hb8171@srmist.edu.in",
+  "college_roll_number": "RA2311026030104",
   "hierarchies": [
     {
       "root": "A",

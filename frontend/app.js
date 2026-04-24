@@ -1,5 +1,9 @@
 const { createApp, ref } = Vue;
 
+// Configuration: Update this URL to your production/hosted endpoint before submission
+const API_BASE_URL = 'https://YOUR_HOSTED_URL/bfhl'; 
+// const API_BASE_URL = 'http://localhost:3000/bfhl';
+
 // Recursive component for rendering the tree
 const TreeNode = {
     props: {
@@ -38,8 +42,7 @@ const app = createApp({
             }
 
             try {
-                // 2. API Call
-                const res = await fetch('http://localhost:3000/bfhl', {
+                const res = await fetch(API_BASE_URL, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
