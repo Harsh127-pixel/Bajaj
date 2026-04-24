@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SRM BFHL Explorer</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Vue 3 CDN -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+    <div id="app" v-cloak>
+        <div class="container">
+            <header>
+                <h1>SRM BFHL <span>Explorer</span></h1>
+            </header>
+
+            <!-- Main Input Card -->
+            <div class="card main-card">
+                <label for="nodeInput">Hierarchy Data</label>
+                <textarea 
+                    id="nodeInput" 
+                    v-model="inputText" 
+                    placeholder="Enter edges, one per line e.g.&#10;A->B&#10;A->C&#10;B->D"
+                ></textarea>
+                
+                <div v-if="errorMsg" id="errorBanner" class="error-banner">
+                    {{ errorMsg }}
+                </div>
+
+                <button id="submitBtn" @click="analyseData" :disabled="loading">
+                    <span v-if="loading">Analysing...</span>
+                    <span v-else>Analyse</span>
+                </button>
+            </div>
+
+            <!-- Results Section -->
+            <div v-if="response" id="results" class="results-container">
+                
+                <!-- Summary Stats -->
+                <div class="summary-grid">
+                    <div class="stat-box">
+                        <div class="stat-label">Total Trees</div>
+                        <div class="stat-value">{{ response.summary.total_trees }}</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Total Cycles</div>
+                        <div class="stat-value">{{ response.summary.total_cycles }}</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Deepest Root</div>
+                        <div class="stat-value">{{ response.summary.largest_tree_root || 'N/A' }}</div>
+                    </div>
+                </div>
+
+                <!-- Hierarchies -->
+                <h3>Hierarchies</h3>
+                <div class="hierarchy-grid">
+                    <div v-for="h in response.hierarchies" :key="h.root" class="card hierarchy-card">
+                        <div class="card-header">
+                            <span class="badge root-badge">Root: {{ h.root }}</span>
+                            <span v-if="h.has_cycle" class="badge cycle-badge">CYCLIC</span>
+                            <span v-else class="badge depth-badge">Depth: {{ h.depth }}</span>
+                        </div>
+                        <div class="tree-content">
+                            <tree-node :tree="h.tree" v-if="!h.has_cycle"></tree-node>
+                            <div v-else class="cyclic-notice">Cycle detected - structure omitted.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Issues Section (Invalid/Duplicates) -->
+                <div class="issues-section">
+                    <div v-if="response.invalid_entries.length > 0">
+                        <h4>Invalid Entries</h4>
+                        <div class="pill-container">
+                            <span v-for="entry in response.invalid_entries" class="pill invalid-pill">{{ entry || 'empty' }}</span>
+                        </div>
+                    </div>
+
+                    <div v-if="response.duplicate_edges.length > 0">
+                        <h4>Duplicate Edges</h4>
+                        <div class="pill-container">
+                            <span v-for="edge in response.duplicate_edges" class="pill duplicate-pill">{{ edge }}</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Recursive Component Template -->
+    <script type="text/template" id="tree-node-template">
+        <div class="tree-branch">
+            <div v-for="(children, node) in tree" :key="node" class="node-wrapper">
+                <div class="node-line">
+                    <span class="node-dot"></span>
+                    <span class="node-name">{{ node }}</span>
+                </div>
+                <div v-if="Object.keys(children).length > 0" class="node-children">
+                    <tree-node :tree="children"></tree-node>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <script src="app.js"></script>
+</body>
+</html>
