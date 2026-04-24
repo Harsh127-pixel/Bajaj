@@ -10,7 +10,6 @@ The **SRM BFHL** project is a comprehensive full-stack solution designed for the
 
 ## 3. Project Structure
 ```text
-srm-bfhl/
 ├── backend/
 │   ├── index.js          # Entry point (Express Setup)
 │   ├── routes/
@@ -32,7 +31,7 @@ srm-bfhl/
 1. Open your terminal.
 2. Navigate to the backend directory:
    ```bash
-   cd srm-bfhl/backend
+   cd backend
    ```
 3. Install dependencies:
    ```bash
@@ -45,7 +44,7 @@ srm-bfhl/
    *The server will run on `http://localhost:3000`.*
 
 ### Launch the Frontend
-Simply open `srm-bfhl/frontend/index.html` in any web browser.
+Simply open `frontend/index.html` in any web browser.
 
 ---
 
