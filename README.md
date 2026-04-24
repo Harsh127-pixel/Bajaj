@@ -6,7 +6,7 @@ The **SRM BFHL** project is a comprehensive full-stack solution designed for the
 ## 2. Tech Stack
 - **Backend**: Node.js, Express.js
 - **Frontend**: Vue.js (CDN), Vanilla CSS3, HTML5
-- **Utilities**: CORS, JSON Parser, Custom Recursive Tree Logic
+- **Utilities**: CORS, Custom Recursive Tree Logic
 
 ## 3. Project Structure
 ```text
@@ -16,11 +16,13 @@ The **SRM BFHL** project is a comprehensive full-stack solution designed for the
 │   │   └── bfhl.js       # API Routes
 │   ├── utils/
 │   │   └── processor.js  # Core Logic (Trees & Cycles)
+│   ├── test.js           # API Test Script
 │   └── package.json      # Backend Dependencies
 ├── frontend/
 │   ├── index.html        # Vue UI Structure
 │   ├── style.css         # Dark Theme Styling
-│   └── app.js            # Vue logic & Tree Rendering
+│   ├── app.js            # Vue logic & Tree Rendering
+│   └── package.json      # Frontend Dev Scripts
 ├── .gitignore            # Git exclusion rules
 └── README.md             # Documentation
 ```
@@ -39,16 +41,33 @@ The **SRM BFHL** project is a comprehensive full-stack solution designed for the
    ```
 4. Start the server:
    ```bash
-   node index.js
+   npm start
    ```
    *The server will run on `http://localhost:3000`.*
 
-### Launch the Frontend
-Simply open `frontend/index.html` in any web browser.
+### Start the Frontend
+You can either open `frontend/index.html` directly or use the dev server:
+1. Navigate to the frontend directory:
+   ```bash
+   cd frontend
+   ```
+2. Start the dev server:
+   ```bash
+   npm run dev
+   ```
+
+## 5. Testing
+A verification script is provided to test the API logic.
+1. Ensure the backend is running.
+2. In a new terminal:
+   ```bash
+   cd backend
+   node test.js
+   ```
 
 ---
 
-## 5. API Reference
+## 6. API Reference
 
 ### POST `/bfhl`
 Processes an array of edges and returns hierarchical structures.
@@ -85,8 +104,8 @@ Processes an array of edges and returns hierarchical structures.
 
 ---
 
-## 6. Notes
-- **CORS Handling**: Cross-Origin Resource Sharing is enabled for all origins to facilitate frontend communication.
-- **Dynamic Logic**: All tree and cycle logic is computed dynamically via the `processor.js` utility; no responses are hardcoded.
+## 7. Notes
+- **CORS Handling**: Cross-Origin Resource Sharing is enabled for all origins.
+- **Dynamic Logic**: All tree and cycle logic is computed dynamically via the `processor.js` utility.
 - **Self-Loops**: Entries like `A->A` are automatically caught as invalid.
-- **Diamond Rule**: If a child has multiple parents, the first parent encountered in the input wins, maintaining a clean hierarchy.
+- **Diamond Rule**: If a child has multiple parents, the first parent encountered in the input wins.
